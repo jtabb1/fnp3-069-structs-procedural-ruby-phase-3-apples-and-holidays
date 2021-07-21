@@ -47,6 +47,11 @@ def all_winter_holiday_supplies(holiday_hash)
   holiday_hash[:winter].values.flatten
 end
 
+def symbol_to_str_capitolized(sym)
+  str = sym.to_s.gsub("_", " ") 
+  str = str.gsub(/\w+/, &:capitalize)
+end
+
 def all_supplies_in_holidays(holiday_hash)
   # iterate through holiday_hash and print items such that your readout resembles:
   # Winter:
@@ -55,7 +60,12 @@ def all_supplies_in_holidays(holiday_hash)
   # Summer:
   #   Fourth Of July: Fireworks, BBQ
   # etc.
-
+  holiday_hash.each do |season, holidays|
+    puts symbol_to_str_capitolized(season) + ":"
+    holidays.each do |holiday, supplies|
+      puts "  " + symbol_to_str_capitolized(holiday) + ": " + supplies.join(", ")
+    end
+  end
   # This is a challenging deliverable!
   # Start by determining how to iterate through the holiday_hash to access all the 
   # data you need for this deliverable. Then work on getting the formatting right.
@@ -77,30 +87,3 @@ def all_holidays_with_bbq(holiday_hash)
   end
   out
 end
-
-x = {
-  :winter => {
-    :christmas => ["Lights", "Wreath"],
-    :new_years => ["Party Hats"]
-  },
-  :summer => {
-    :fourth_of_july => ["Fireworks", "BBQ"]
-  },
-  :fall => {
-    :thanksgiving => ["Turkey"]
-  },
-  :spring => {
-    :memorial_day => ["BBQ"]
-  }
-}
-
-columbus_day_supplies = ["Flags", "Parade Floats", "Italian Food"]
-
-y = add_new_holiday_with_supplies(x, :fall, :columbus_day, columbus_day_supplies)
-
-# binding.pry
-
-columbus_day_supplies = ["Flags", "Parade Floats", "Italian Food"]
-c = columbus_day_supplies
-
-
