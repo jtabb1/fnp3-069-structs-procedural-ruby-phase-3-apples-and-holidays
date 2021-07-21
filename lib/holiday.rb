@@ -1,6 +1,5 @@
 require 'pry'
 
-def second_supply_for_fourth_of_july(holiday_hash)
   # given that holiday_hash looks like this:
   # {
   #   :winter => {
@@ -17,33 +16,25 @@ def second_supply_for_fourth_of_july(holiday_hash)
   #     :memorial_day => ["BBQ"]
   #   }
   # }
-  # return the second element in the 4th of July array
+
+def second_supply_for_fourth_of_july(holiday_hash)
   holiday_hash[:summer][:fourth_of_july][1]
 end
 
 def add_supply_to_winter_holidays(holiday_hash, supply)
-  # holiday_hash is identical to the one above
-  # add the second argument, which is a supply, to BOTH the
-  # Christmas AND the New Year's arrays
   holiday_hash[:winter].each{|ky,vu| vu << supply}
 end
 
 
 def add_supply_to_memorial_day(holiday_hash, supply)
-  # again, holiday_hash is the same as the ones above
-  # add the second argument to the memorial day array
   holiday_hash[:spring][:memorial_day] << supply
 end
 
 def add_new_holiday_with_supplies(holiday_hash, season, holiday_name, supply_array)
-  # code here
-  # remember to return the updated hash
-  # extra = {holiday_name => supply_array}
   holiday_hash[season] = {holiday_name => supply_array}
 end
 
 def all_winter_holiday_supplies(holiday_hash)
-  # return an array of all of the supplies that are used in the winter season
   holiday_hash[:winter].values.flatten
 end
 
@@ -52,7 +43,7 @@ def symbol_to_str_capitolized(sym)
   str = str.gsub(/\w+/, &:capitalize)
 end
 
-def all_supplies_in_holidays(holiday_hash)
+def all_supplies_in_holidays_0(holiday_hash)
   # iterate through holiday_hash and print items such that your readout resembles:
   # Winter:
   #   Christmas: Lights, Wreath
@@ -66,24 +57,33 @@ def all_supplies_in_holidays(holiday_hash)
       puts "  " + symbol_to_str_capitolized(holiday) + ": " + supplies.join(", ")
     end
   end
-  # This is a challenging deliverable!
-  # Start by determining how to iterate through the holiday_hash to access all the 
-  # data you need for this deliverable. Then work on getting the formatting right.
-  # To capitalize the names of the holidays, you'll need to do the following:
-  # - Start with a name of the holiday as a symbol (:fourth_of_july)
-  # - Convert the symbol to a string ("fourth_of_july")
-  # - Replace each underscore with a space ("fourth of july")
-  # - Capitalize the first letter of each word ("Fourth Of July")
 end
 
-def all_holidays_with_bbq(holiday_hash)
-  # return an array of holiday names (as symbols) where supply lists
-  # include the string "BBQ"
+# alternate answer from the official solution:
+def all_supplies_in_holidays(holiday_hash)
+  holiday_hash.each do |season, holidays|
+    puts "#{season.capitalize}:"
+    holidays.each do |holiday, supplies|
+      puts"  #{holiday.to_s.split('_').map {|w| w.capitalize }.join(' ') }: #{supplies.join(", ")}"
+    end
+  end
+end
+
+def all_holidays_with_bbq_0(holiday_hash)
   out = []
-  holiday_hash.each do |ky1, vu1|
-    vu1.each do |ky2, vu2|
-      out << ky2 if vu2.include? "BBQ"
+  holiday_hash.each do |season, holidays|
+    holidays.each do |holiday, supplies|
+      out << holiday if supplies.include? "BBQ"
     end
   end
   out
+end
+
+# alternate answer from the official solution:
+def all_holidays_with_bbq(holiday_hash)
+  holiday_hash.map do |season, holidays|
+    holidays.map do |holiday, supplies|
+      holiday if supplies.include?("BBQ")
+    end
+  end.flatten.compact
 end
